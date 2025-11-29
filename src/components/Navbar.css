@@ -1,0 +1,153 @@
+/* ===========================
+   NAVBAR BASE
+=========================== */
+.nav {
+  width: 100%;
+  height: 70px;
+  background: #ffffff;
+  border-bottom: 1px solid #e6e6e6;
+  padding: 0 40px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  font-family: "Inter", sans-serif;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 100;
+}
+
+/* ===========================
+   BRAND
+=========================== */
+.nav-brand {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #2c3e50;
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.nav-brand:hover {
+  color: #2c7be5;
+}
+
+/* ===========================
+   RIGHT SECTION
+=========================== */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  transition: all 0.3s ease;
+}
+
+/* User Greeting */
+.nav-user {
+  font-size: 1rem;
+  color: #444;
+}
+
+/* ===========================
+   BUTTONS
+=========================== */
+.nav-btn {
+  padding: 10px 18px;
+  font-size: 0.95rem;
+  background: #2c7be5;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.nav-btn:hover {
+  background: #1a68d1;
+}
+
+.logout {
+  background: #e63946;
+}
+
+.logout:hover {
+  background: #c92f3c;
+}
+
+/* Login Link */
+.nav-login {
+  font-size: 1rem;
+  padding: 10px 18px;
+  background: #2c7be5;
+  border-radius: 8px;
+  color: white;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.nav-login:hover {
+  background: #1a68d1;
+}
+
+/* ===========================
+   HAMBURGER MENU
+=========================== */
+.nav-hamburger {
+  display: none;
+  cursor: pointer;
+  color: #2c3e50;
+}
+
+/* ===========================
+   MOBILE RESPONSIVE
+=========================== */
+@media (max-width: 768px) {
+  .nav {
+    padding: 0 20px;
+  }
+
+  .nav-right {
+    position: absolute;
+    top: 70px;
+    right: 0;
+    background: #fff;
+    width: 100%;
+    max-width: 300px;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    gap: 15px;
+    border-left: 1px solid #e6e6e6;
+    border-bottom: 1px solid #e6e6e6;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    box-shadow: -2px 0 8px rgba(0,0,0,0.1);
+  }
+
+  .nav-right.open {
+    transform: translateX(0);
+  }
+
+  .nav-btn, .nav-login {
+    width: 100%;
+    text-align: center;
+  }
+
+  .nav-hamburger {
+    display: block;
+  }
+}
+
+/* ===========================
+   TABLET RESPONSIVE
+=========================== */
+@media (max-width: 1024px) {
+  .nav-right {
+    gap: 14px;
+  }
+
+  .nav-btn {
+    padding: 8px 12px;
+  }
+}

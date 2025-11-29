@@ -1,0 +1,222 @@
+.dashboard-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px 20px;
+  font-family: "Inter", sans-serif;
+  background: #f4f6f9;
+  min-height: 100vh;
+}
+
+.dashboard-title {
+  font-size: 36px;
+  text-align: center;
+  color: #2d3e50;
+  font-weight: 700;
+}
+
+.dashboard-welcome {
+  text-align: center;
+  color: #555;
+  font-size: 16px;
+  margin-bottom: 30px;
+}
+
+/* Cards Grid */
+.cards-grid {
+  display: grid;
+  gap: 25px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+}
+
+@media (min-width: 1025px) {
+  .cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Card Design */
+.card {
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 14px;
+  box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.06);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #2d3e50;
+  margin-bottom: 15px;
+}
+
+/* Month input */
+.month-input {
+  padding: 12px;
+  font-size: 15px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 300px;
+  border: 1px solid #d1d1d1;
+  background: #f7f9fc;
+  transition: 0.3s ease;
+  display: block;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.month-input:focus {
+  outline: none;
+  border-color: #4e73df;
+  box-shadow: 0 0 6px rgba(78, 115, 223, 0.4);
+  background: #ffffff;
+}
+
+/* Total Card */
+.total-card {
+  text-align: center;
+  background: linear-gradient(135deg, #4e73df, #6e8af0);
+  color: white;
+}
+
+.total-card .card-title {
+  color: white;
+}
+
+.total-amount {
+  font-size: 44px;
+  font-weight: 700;
+  margin-top: 10px;
+}
+
+/* Charts */
+.charts-section {
+  margin-top: 40px;
+  display: grid;
+  gap: 25px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+@media (min-width: 1025px) {
+  .charts-section {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.chart-card {
+  background: #ffffff;
+  padding: 22px;
+  border-radius: 14px;
+  box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.06);
+}
+
+.chart-title {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  color: #2d3e50;
+  margin-bottom: 15px;
+}
+
+.chart-card canvas {
+  max-height: 300px;
+  width: 100% !important;
+}
+
+/* =========================
+   Expense Filters & List
+========================= */
+.expense-filters {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.expense-filters input,
+.expense-filters select {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #d1d1d1;
+  font-size: 14px;
+  flex: 1;
+  min-width: 140px;
+}
+
+.expenses-list-wrapper {
+  max-height: 300px;
+  overflow-y: auto;
+  border-top: 1px solid #eee;
+  padding-top: 8px;
+}
+
+/* Scrollbar styling */
+.expenses-list-wrapper::-webkit-scrollbar {
+  width: 6px;
+}
+
+.expenses-list-wrapper::-webkit-scrollbar-thumb {
+  background-color: rgba(78, 115, 223, 0.5);
+  border-radius: 3px;
+}
+
+.expenses-list-wrapper::-webkit-scrollbar-track {
+  background: #f4f6f9;
+}
+
+/* =========================
+   Responsive
+========================= */
+@media (max-width: 1024px) {
+  .dashboard-wrapper {
+    padding: 22px 18px;
+  }
+
+  .dashboard-title {
+    font-size: 30px;
+  }
+
+  .total-amount {
+    font-size: 38px;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-wrapper {
+    padding: 18px 16px;
+  }
+
+  .dashboard-title {
+    font-size: 26px;
+  }
+
+  .total-amount {
+    font-size: 34px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-title {
+    font-size: 22px;
+  }
+
+  .card-title {
+    font-size: 16px;
+  }
+
+  .total-amount {
+    font-size: 30px;
+  }
+
+  .month-input,
+  .expense-filters input,
+  .expense-filters select {
+    font-size: 14px;
+    padding: 8px;
+  }
+}
