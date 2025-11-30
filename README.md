@@ -1,70 +1,252 @@
-# Getting Started with Create React App
+# Expense Tracker Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**Project:** `Expense_Tracker_Frontend`
+
+**Live demo (Vercel):** [https://expense-tracker-frontend-859b.vercel.app/](https://expense-tracker-frontend-859b.vercel.app/)
+
+---
+
+## Table of Contents
+
+* [Project Overview](#project-overview)
+* [Key Features](#key-features)
+* [Screenshots](#screenshots)
+* [Tech Stack](#tech-stack)
+* [Folder Structure](#folder-structure)
+* [Local Setup](#local-setup)
+* [Environment Variables](#environment-variables)
+* [Available Scripts](#available-scripts)
+* [How It Works (high level)](#how-it-works-high-level)
+
+  * [Authentication](#authentication)
+  * [Dashboard](#dashboard)
+  * [Graphs & Visuals](#graphs--visuals)
+  * [Expense Calculation & Percentages](#expense-calculation--percentages)
+* [API / Backend Expectations](#api--backend-expectations)
+* [Deployment (Vercel)](#deployment-vercel)
+* [Common Issues & Troubleshooting](#common-issues--troubleshooting)
+* [Contributing](#contributing)
+* [License](#license)
+* [Contact](#contact)
+
+---
+
+## Project Overview
+
+Expense Tracker Frontend is a React application that allows users to register/login and manage their personal expenses. The dashboard shows:
+
+* Total expense (numeric)
+* Expense breakdown by category (bar/line chart)
+* Circular progress / donut that shows percentage of spent vs budget or category percentage
+* Interactive charts and lists of recent transactions
+
+This repository contains the frontend only. The app expects a backend API that exposes auth and expense endpoints.
+
+---
+
+## Key Features
+
+* ✅ User registration and login (JWT-based expected)
+* ✅ Secure token storage (HTTP-only cookie or localStorage — configurable)
+* ✅ Dashboard with total expense summary
+* ✅ Transaction list with add/edit/delete
+* ✅ Charts: time-series (monthly) and category breakdown (donut/pie)
+* ✅ Circular percentage visualization for budget usage or category share
+* ✅ Responsive design (desktop & mobile)
+* ✅ Deployed to Vercel (link above)
+
+---
+
+## Screenshots
+
+> Replace these placeholders with actual screenshots from the `public/screenshots` folder.
+
+* `screenshots/dashboard.png` — Dashboard (total expense + charts)
+* `screenshots/login.png` — Login page
+* `screenshots/register.png` — Register page
+
+---
+
+## Tech Stack
+
+* React (Create React App / Vite — whichever your project uses)
+* React Router for routing
+* Context API / Redux for state management (project uses: **Context API** by default)
+* Axios for HTTP requests
+* Charting library: `recharts` or `chart.js` (project examples use `recharts`)
+* UI: Tailwind CSS / plain CSS (adjust to your existing styles)
+
+---
+
+## Folder Structure (recommended)
+
+```
+Expense_Tracker_Frontend/
+├─ public/
+│  ├─ index.html
+│  └─ screenshots/
+├─ src/
+│  ├─ api/                # axios instances
+│  ├─ components/         # small reusable components (Button, Input, Card)
+│  ├─ context/            # AuthContext, ExpenseContext
+│  ├─ pages/              # Login, Register, Dashboard, Transactions
+│  ├─ services/           # services calling backend endpoints
+│  ├─ hooks/              # custom hooks (useAuth, useFetch)
+│  ├─ styles/             # global css / tailwind
+│  └─ App.jsx
+├─ .env
+├─ package.json
+└─ README.md
+```
+
+---
+
+## Local Setup
+
+1. Clone the repo:
+
+```bash
+git clone https://github.com/<your-user>/Expense_Tracker_Frontend.git
+cd Expense_Tracker_Frontend
+```
+
+2. Install dependencies:
+
+```bash
+npm install
+# or
+yarn install
+```
+
+3. Create a `.env` file (see next section).
+
+4. Start the dev server:
+
+```bash
+npm start
+# or
+yarn start
+```
+
+Open `http://localhost:3000`.
+
+---
+
+## Environment Variables
+
+Create a `.env` at project root. Example variables used by the frontend:
+
+```
+REACT_APP_API_BASE_URL=https://expense-tracker-backend.example.com/api
+REACT_APP_CLIENT_URL=http://localhost:3000
+# If using Vercel with environment secrets, set same keys there
+```
+
+> Note: Replace the `REACT_APP_API_BASE_URL` with your backend URL. If your backend is deployed on Vercel or Heroku, use that URL.
+
+---
 
 ## Available Scripts
 
-In the project directory, you can run:
+* `npm start` — Run app in development mode.
+* `npm run build` — Build for production.
+* `npm test` — Run tests (if any).
+* `npm run lint` — Lint the project (if configured).
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## How It Works (high level)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Authentication
 
-### `npm test`
+* User registers via `/api/auth/register` with `{ name, email, password }`.
+* User logs in via `/api/auth/login` and receives a JWT.
+* JWT stored in `localStorage` (or via httpOnly cookie if backend sets cookie).
+* AuthContext exposes `login`, `logout`, and `currentUser` to the app.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Dashboard
 
-### `npm run build`
+* On login, the dashboard fetches expenses for the user from `/api/expenses`.
+* A summary endpoint (optional) `/api/expenses/summary` may return totals grouped by month/category for faster charts.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Graphs & Visuals
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+* **Time-series chart:** displays total expense per day/week/month using `LineChart` or `AreaChart`.
+* **Category breakdown:** a `PieChart`/`Donut` shows each category's share.
+* **Circular percentage:** a circular progress component (e.g., `react-circular-progressbar`) shows `spent / budget * 100` OR singular category percentage. The app also shows the raw numeric total near the donut.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Expense Calculation & Percentages
 
-### `npm run eject`
+* `totalExpense` is the sum of `amount` for all transactions fetched.
+* Category percentage = `(categoryTotal / totalExpense) * 100` (rounded to 1–2 decimals).
+* Budget percentage = `(totalExpense / monthlyBudget) * 100` (cap at 100% if you prefer).
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+---
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## API / Backend Expectations
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Your backend should expose these endpoints (paths are conventional; adapt if different):
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+* `POST /api/auth/register` — register user
 
-## Learn More
+* `POST /api/auth/login` — login (returns token / sets cookie)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+* `GET /api/auth/me` — get current user (auth required)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+* `GET /api/expenses` — list expenses (support query params: `from`, `to`, `page`, `limit`)
 
-### Code Splitting
+* `POST /api/expenses` — create expense `{ title, amount, date, category }`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+* `PUT /api/expenses/:id` — update expense
 
-### Analyzing the Bundle Size
+* `DELETE /api/expenses/:id` — delete expense
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+* `GET /api/expenses/summary` — (optional) returns totals grouped by category or month for faster charting
 
-### Making a Progressive Web App
+If your backend uses JWT, the frontend should add `Authorization: Bearer <token>` header in requests.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+---
 
-### Advanced Configuration
+## Deployment (Vercel)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+1. Connect the GitHub repository to Vercel.
+2. Set environment variables in Vercel dashboard (`REACT_APP_API_BASE_URL` etc.).
+3. Build command: `npm run build`, Output directory: `build` (Create React App) or `dist` (Vite).
+4. Ensure your backend CORS allows the deployed origin (`https://expense-tracker-frontend-859b.vercel.app`).
 
-### Deployment
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## Common Issues & Troubleshooting
 
-### `npm run build` fails to minify
+* **CORS error:** Backend must set `Access-Control-Allow-Origin` to the frontend origin (or `*` in dev). For production prefer the specific origin.
+* **401 / Unauthorized:** Confirm token is present and backend expects header format `Bearer <token>`.
+* **Charts blank:** Ensure the summary endpoint returns numeric values and dates in ISO format. Charts expect arrays with consistent keys (e.g., `{ date: '2025-07-01', total: 320 }`).
+* **Net::ERR_BLOCKED_BY_CLIENT:** Check adblockers or browser extensions.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+---
+
+## Contributing
+
+Contributions are welcome! Suggested steps:
+
+1. Fork the repo
+2. Create a feature branch: `git checkout -b feature/my-feature`
+3. Commit changes and open a Pull Request
+
+Please include descriptions for bug fixes and screenshots for UI changes.
+
+---
+
+## License
+
+This project is provided under the MIT License — adjust as needed.
+
+---
+
+## Contact
+
+If you need help with integration or want me to customize this README with code snippets from your project, tell me which files to reference and I will update the doc.
+
+---
+
+> This README includes placeholders for screenshots and some endpoints — update them to match your backend routes and UI components. Happy coding!
